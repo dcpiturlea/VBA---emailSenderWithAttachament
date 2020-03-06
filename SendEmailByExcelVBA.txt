@@ -1,0 +1,69 @@
+
+Sub SendReferentielEmail()
+
+Dim EmailApp As Outlook.Application
+Dim Source As String
+Set EmailApp = New Outlook.Application
+
+Dim catre As Range
+Set catre = ActiveSheet.Range("A2")
+Dim catreToString As String
+catreToString = "" & catre
+
+
+Dim cc As Range
+Set cc = ActiveSheet.Range("B2")
+Dim ccToString As String
+cctToString = "" & cc
+
+Dim subiect As Range
+Set subiect = ActiveSheet.Range("C2")
+Dim subiectToString As String
+subiectToString = "" & subiect
+
+Dim continut As Range
+Set continut = ActiveSheet.Range("D2")
+Dim continutToString As String
+continutToString = "" & continut
+
+
+
+Dim EmailItem As Outlook.MailItem
+Set EmailItem = EmailApp.CreateItem(olMailItem)
+
+Dim filePathRange As Range
+Set filePathRange = ActiveSheet.Range("E2")
+Dim filePath As String
+filePath = "" & filePathRange
+
+Dim fileNameRange As Range
+Set fileNameRange = ActiveSheet.Range("F2")
+Dim fileName As String
+fileName = fileNameRange + " "
+
+Dim extensieRange As Range
+Set extensieRange = ActiveSheet.Range("G2")
+Dim extensie As String
+extensie = "." & extensieRange
+
+Dim dayRange As Range
+Set dayRange = ActiveSheet.Range("H2")
+Dim day As String
+day = "" & dayRange
+day = Replace(day, "/", " ")
+
+EmailItem.To = catreToString
+EmailItem.cc = cc
+EmailItem.BCC = ""
+EmailItem.Subject = subiectToString
+EmailItem.Body = continutToString
+source_file = filePath + fileName & day & extensie
+EmailItem.Attachments.Add source_file
+EmailItem.Send
+
+MsgBox ("Mail trimis catre: " & catreToString)
+
+
+
+End Sub
+
