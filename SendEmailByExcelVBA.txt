@@ -1,9 +1,12 @@
 
 Sub SendReferentielEmail()
 
+On Error GoTo eh
+
 Dim EmailApp As Outlook.Application
-Dim Source As String
 Set EmailApp = New Outlook.Application
+Dim EmailItem As Outlook.MailItem
+Set EmailItem = EmailApp.CreateItem(olMailItem)
 
 Dim catre As Range
 Set catre = ActiveSheet.Range("A2")
@@ -26,43 +29,55 @@ Set continut = ActiveSheet.Range("D2")
 Dim continutToString As String
 continutToString = "" & continut
 
-
-
-Dim EmailItem As Outlook.MailItem
-Set EmailItem = EmailApp.CreateItem(olMailItem)
-
-Dim filePathRange As Range
-Set filePathRange = ActiveSheet.Range("E2")
-Dim filePath As String
-filePath = "" & filePathRange
-
-Dim fileNameRange As Range
-Set fileNameRange = ActiveSheet.Range("F2")
-Dim fileName As String
-fileName = fileNameRange + " "
-
-Dim extensieRange As Range
-Set extensieRange = ActiveSheet.Range("G2")
-Dim extensie As String
-extensie = "." & extensieRange
-
-Dim dayRange As Range
-Set dayRange = ActiveSheet.Range("H2")
-Dim day As String
-day = "" & dayRange
-day = Replace(day, "/", " ")
-
 EmailItem.To = catreToString
 EmailItem.cc = cc
 EmailItem.BCC = ""
 EmailItem.Subject = subiectToString
 EmailItem.Body = continutToString
-source_file = filePath + fileName & day & extensie
-EmailItem.Attachments.Add source_file
-EmailItem.Send
+
+Dim attachamentBoolRange As Range
+Set attachamentBoolRange = ActiveSheet.Range("E2")
+Dim attachament As String
+attachament = "" & attachamentBoolRange
+
+If attachament = "yes" Then
+    Dim filePathRange As Range
+    Set filePathRange = ActiveSheet.Range("F2")
+    Dim filePath As String
+    filePath = "" & filePathRange
+
+    Dim fileNameRange As Range
+    Set fileNameRange = ActiveSheet.Range("G2")
+    Dim fileName As String
+    fileName = fileNameRange + " "
+
+    Dim extensieRange As Range
+    Set extensieRange = ActiveSheet.Range("H2")
+    Dim extensie As String
+    extensie = "." & extensieRange
+
+
+    Dim dayRange As Range
+    Set dayRange = ActiveSheet.Range("I2")
+    Dim day As String
+    day = "" & dayRange
+    day = Replace(day, "/", " ")
+    
+    Dim Source As String
+    source_file = filePath + fileName & day & extensie
+    EmailItem.Attachments.Add source_file
+    EmailItem.Send
+    
+Else: EmailItem.Send
+End If
+
 
 MsgBox ("Mail trimis catre: " & catreToString)
 
+Done:
+    Exit Sub
+eh:
+    MsgBox "The following error occurred: " & Err.Description
 
 
 End Sub
