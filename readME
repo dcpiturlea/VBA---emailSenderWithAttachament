@@ -1,0 +1,8 @@
+in miniproiect sunt doua scripturi VBA pentru:
+
+1. Trimitere email din excel(prin OUTLOOK), folosind mai multe coloane pe post de 
+atribute ale mailului(destinatar, subiect, continut, locatia fisierului atasat, etc)(vezi captura de ecran)
+2.Trimiterea automata a unui email(prin MS OUTLOOK) care are atasat documentul din care se actioneaza scriptul:
+
+P.S. Pentru a doua varianta toate datele din email sunt hardcodate, deci trebuie schimbate destinatarul si mesajul
+in functie de necesitati
