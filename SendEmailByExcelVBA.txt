@@ -1,5 +1,8 @@
+'Trimitere email din excel(prin OUTLOOK), folosind mai multe coloane pe post de 
+'atribute ale mailului(destinatar, subiect, continut,
+'locatia fisierului atasat, etc)
 
-Sub SendReferentielEmail()
+Sub SendEmail()
 
 On Error GoTo eh
 
@@ -82,3 +85,56 @@ eh:
 
 End Sub
 
+_____________________________________________________________________________________________________________________
+'Trimiterea automata a unui email(prin MS OUTLOOK) care are atasat documentul din care se actioneaza scriptul:
+
+Sub SendEmail()
+
+On Error GoTo eh
+
+Dim EmailApp As Outlook.Application
+Set EmailApp = New Outlook.Application
+Dim EmailItem As Outlook.MailItem
+Set EmailItem = EmailApp.CreateItem(olMailItem)
+
+Dim myNameInput As Variant
+myNameInput = InputBox("Care este semnatura ta??")
+Dim myName As String
+myName = myNameInput
+
+Dim subjectDay As String
+subjectDay = Date
+
+
+Dim catre As String
+'catre = "dcpiturlea@gmail.com"
+
+Dim continut As String
+continut = "Buna ziua," & vbNewLine & "Fiecare paragraf reprezinta" & vbNewLine & "o linie noua"
+Dim cc As String
+cc = "dcpiturlea@gmail.com"
+
+
+
+EmailItem.To = catre
+EmailItem.cc = cc
+EmailItem.BCC = ""
+EmailItem.Subject = "Trecem subiectul mailului, plus data curenta: " & subjectDay
+EmailItem.Body = continut & vbNewLine & myName
+
+
+
+Dim source_file As Workbook
+'Set source_file = ActiveWorkbook.FullName
+EmailItem.Attachments.Add Application.ActiveWorkbook.FullName
+EmailItem.Send
+
+
+Done:
+MsgBox ("Mail trimis catre: " & catre)
+    Exit Sub
+eh:
+    MsgBox "The following error occurred: " & Err.Description
+
+
+End Sub
